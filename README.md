@@ -1,2 +1,2 @@
 # springboot03-web
-My some study project 
+看狂神视频写的小项目
