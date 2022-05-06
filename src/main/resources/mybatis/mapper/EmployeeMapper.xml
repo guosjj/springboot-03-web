@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.guo.dao.EmployeeMapper">
+
+    <insert id="save" parameterType="Employee">
+        insert into springboot03web.employee (id, lastName, email, gender, birth, did)
+        VALUES (#{id},#{lastName}, #{email}, #{gender}, #{birth}, #{department.id})
+    </insert>
+
+    <select id="getAll" resultMap="EmployeeDept">
+        select * from springboot03web.employee
+    </select>
+
+    <resultMap id="EmployeeDept" type="Employee">
+        <result property="id" column="id"/>
+        <result property="lastName" column="lastName"/>
+        <result property="email" column="email"/>
+        <result property="gender" column="gender"/>
+        <result property="birth" column="birth"/>
+        <association property="department" column="did" javaType="Department" select="getDept"/>
+    </resultMap>
+
+    <select id="getDept" resultType="Department">
+        select * from springboot03web.department where id = #{did}
+    </select>
+
+
+    <select id="getEmployeeByid" resultMap="EmployeeDept">
+        select * from springboot03web.employee where id=#{id};
+    </select>
+
+    <update id="update" parameterType="Employee">
+        update springboot03web.employee
+            set  lastName= #{lastName},email=#{email},gender=#{gender},birth=#{birth},did=#{department.id}
+        where id=#{id};
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from springboot03web.employee where id=#{id}
+    </delete>
+</mapper>
